@@ -1,0 +1,74 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model PlantasEditVM
+@{
+    ViewData["Title"] = "UpSert Planta";
+}
+<form method="post" asp-controller="Plantas" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="PlantaId" />
+    <div class="border p-3 bg-white">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group row">
+            <h2 class="text-info pl-3">@(Model.PlantaId == 0 ? "Agregar Planta" : "Editar Planta")</h2>
+
+        </div>.
+        <div class="row">
+            <div class="col-8">
+
+                <div class="form-group py-2">
+                    <label asp-for="Descripcion" class="form-label"></label>
+                    <input asp-for="Descripcion" class="form-control" />
+                    <span asp-validation-for="Descripcion" class="text-danger"></span>
+                </div>
+                <div class="form-group col-3 py-2">
+                    <label asp-for="Precio"></label>
+                    <input asp-for="Precio" class="form-control" type="number" min="1" max="10000" />
+                    <span asp-validation-for="Precio" class="text-danger"></span>
+                </div>
+                <div class="row">
+                    <div class="form-group col-6 py-2">
+                        <label asp-for="TipoDePlantaId"></label>
+                        <select asp-for="TipoDePlantaId" class="form-select" asp-items="Model.TiposDePlantas">
+                            <option selected disabled>Seleccionar Tipo</option>
+                        </select>
+                        <span asp-validation-for="TipoDePlantaId" class="text-danger"></span>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @if (Model.PlantaId == 0)
+        {
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-floppy2-fill"></i>
+                Crear
+            </button>
+        }
+        else
+        {
+            <button type="submit" class="btn btn-warning">
+                <i class="bi bi-pencil"></i>
+                Editar
+            </button>
+
+        }
+        <a asp-action="Index" class="btn btn-success btn-block">
+            <i class="bi bi-backspace"></i>
+            Volver a la Lista
+        </a>
+
+    </div>
+
+</form>
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial"></partial>
+    }
+
+}

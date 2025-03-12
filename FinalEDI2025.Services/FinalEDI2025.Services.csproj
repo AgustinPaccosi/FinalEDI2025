@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FinalEDI2025.Data\FinalEDI2025.Data.csproj" />
+    <ProjectReference Include="..\FinalEDI2025.Entities\FinalEDI2025.Entities.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,53 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model TiposDePlantasEditVM
+@{
+    ViewData["Title"] = "Nuevo/Edicion Tipo De Planta";
+}
+<form method="post" asp-action="UpSert" class="w-75">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="TipoPlantaId" />
+
+    <div class="border p-3 bg-white">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group row">
+            <h2 class="text-info pl-3">@(Model.TipoPlantaId == 0 ? "Agregar Tipo de Planta" : "Editar Tipo de Planta")</h2>
+
+        </div>
+        <div class="form-group row py-2">
+            <label asp-for="Descripcion"></label>
+            <input asp-for="Descripcion" class="form-control" maxlength="50" />
+            <span asp-validation-for="Descripcion" class="text-danger"></span>
+
+        </div>
+        @if (Model.TipoPlantaId == 0)
+        {
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-floppy2-fill"></i>
+                Crear
+            </button>
+        }
+        else
+        {
+            <button type="submit" class="btn btn-warning">
+                <i class="bi bi-pencil"></i>
+                Editar
+            </button>
+
+        }
+        <a asp-action="Index" class="btn btn-success btn-block">
+            <i class="bi bi-backspace"></i>
+            Volver a la Lista
+        </a>
+
+
+    </div>
+</form>
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial"></partial>
+    }
+}

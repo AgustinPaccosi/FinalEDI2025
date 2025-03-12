@@ -1,0 +1,125 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model PlantasFilterVM
+@using X.PagedList
+@{
+    ViewData["Title"] = "Lista de Plantas";
+}
+<div class="container">
+    @Html.AntiForgeryToken()
+    <div class="row mb-3">
+        <div class="col-6">
+            <h3>Lista de Productos</h3>
+
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="Plantas" asp-action="UpSert" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i>
+                Nuevo
+            </a>
+        </div>
+    </div>
+    <form method="get" class="form-inline" asp-action="Index">
+        <div class="d-flex flex-row align-items-center">
+            <div class="col-auto mx-1">
+                <label for="pageSize">Mostrar:</label>
+            </div>
+            <div class="col-auto mx-2">
+                <partial name="_selectPageSize" model="@ViewBag.currentPageSize" />
+            </div>
+            <div class="col-auto mx-2">
+                Categoria:
+            </div>
+
+            <div class="col-auto mx-2" style="width: 300px;">
+                <select class="form-select" id="filterId" name="filterId" >
+                    <option selected disabled value="0">Selecccione el Tipo de Planta</option>
+                    @{
+                        foreach (var item in Model.TiposDePlantas!)
+                        {
+                            <option selected="@(ViewBag.currentFilterId==int.Parse(item.Value)?"selected":null)" value="@item.Value">@item.Text</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-auto d-flex">
+                <button type="submit" class="btn btn-primary mx-2">
+                    <i class="bi bi-search"></i> Buscar
+                </button>
+                <button type="submit" class="btn btn-secondary" id="viewAll" name="viewAll" value="true">
+                    <i class="bi bi-list"></i> Ver Todo
+                </button>
+            </div>
+            <div class="col-auto" style="color:#ffffff">Ordenar:</div>
+            <div class="col-auto">
+                <select class="form-select" id="orderBy" name="orderBy" onchange="this.form.submit()">
+                    <option selected="@(ViewBag.currentOrderBy=="Ascendente"?"selected":null)" value="Ascendente">Ascendente</option>
+                    <option selected="@(ViewBag.currentOrderBy=="Descendente"?"selected":null)" value="Descendente">Descendente</option>
+                </select>
+            </div>
+
+        </div>
+    </form>
+    <table class="table table-bordered table-hover mt-3">
+        <thead>
+            <tr>
+                <th style="width:20%">Descripcion</th>
+                <th style="width:20%">Precio</th>
+                <th style="width:14%">Tipo de Planta</th>
+                <th style="width:20%">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Plantas!.Any())
+            {
+                foreach (var item in Model.Plantas!)
+                {
+                    <tr id="@item.PlantaId">
+                        <td>
+                            @item.Descripcion
+
+                        </td>
+                        <td>
+                            @item.Precio
+                        </td>
+                        <td>
+                            @item.TipoDePlanta
+                        </td>
+                        <td>
+                            <a class="btn btn-warning" asp-controller="Plantas" asp-action="UpSert" asp-route-id="@item.PlantaId">
+                                <i class="bi bi-pencil-square"></i>&nbsp;
+                                Editar
+                            </a>
+                            <a onclick="Delete('/Plantas/Delete/@item.PlantaId',@item.PlantaId,'@item.Descripcion')" class="btn btn-danger">
+                                <i class="bi bi-trash-fill"></i>
+                                Borrar
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7" class="text-center">
+                        Sin Productos Asociados
+
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+    <partial name="_Page" model="@Model.Plantas" />
+
+
+</div>
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="~/js/Common.js"></script>
+}
